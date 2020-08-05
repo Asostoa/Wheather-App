@@ -9,7 +9,7 @@ https://asostoa.github.io/Wheather-App/
 - Bootstrap - Used to create a grid
 - jQuerry  - Used to make this app dynamic 
 - Moment JS - Used to obtain the local time
--Open Wheather - Used as a API to obtain the weather data.
+- Open Wheather - Used as a API to obtain the weather data.
 
 ## Operating Instructions
  
@@ -17,7 +17,7 @@ When the Users access to the site he will be presented with a form asking in wic
 After clicking the serach button the site will present to the user the current wheather.
 Also the App will show the forecast for the next 5 days.
 
-![ScreenShoot](.\assets\screenshot.png "Title")
+![ScreenShoot](.\assets\screenshot.png?raw=true "Title")
  
 # Autor
 
