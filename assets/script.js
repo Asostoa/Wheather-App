@@ -1,21 +1,3 @@
-// we present the homescreen to out user;
-// if the users had already search for a city;
-//    we get the data from our local storage;
-//    and append it to our previous search container;
-//we present a form to the user asking the city where he wants to see the wheather;
-//   we create a variable with the city from the user input;
-//we check for the data to be asing with upper case;
-//   If the users input its not type in upper case,
-//   then when make the input in uppper case;
-//we store the input value from the user;
-//   we modified the querry url city atribute of what was input on this;
-// we create a ajax funciton where we get the user input data;
-//   we create a variable with the geo cordanates to later obtain the uv index;
-//after obtaining the info from our API;
-//   we display the current:wheather icon, temp , humidity , win speed  and uv index;
-//   after we create a loop for 5 days for the forecast of that city;
-//   we append our diferents days to cards;
-//we store the users input to our local storage
 
 // Var city library will hold our information in the local storage
 var cityLibrary = []
@@ -70,7 +52,7 @@ $("#search-button").click(function (event) {
 })
 //Retive the information as need it from the openWheather API, and we append it to the current weather card.
 function ajaxWeather(city) {
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=0e6c3174a1688eb274ee1dfce2109fc8&units=metric";
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=0e6c3174a1688eb274ee1dfce2109fc8&units=metric";
 
     var latitude;
     var longitude;
@@ -124,7 +106,7 @@ function ajaxWeather(city) {
                 "color:orange",
             );
 
-            var queryURL3 = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=0e6c3174a1688eb274ee1dfce2109fc8&units=metric"
+            var queryURL3 = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=0e6c3174a1688eb274ee1dfce2109fc8&units=metric"
 
             $.ajax({
                 url: queryURL3,
