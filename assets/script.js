@@ -16,19 +16,63 @@
 //   after we create a loop for 5 days for the forecast of that city;
 //   we append our diferents days to cards;
 //we store the users input to our local storage
-// function searchCityWeather(city){
+
+
+var cityLibrary = []
 $("#current-weather").hide()
 $("#forecast-weather").hide()
+
+if (localStorage.getItem("cityLibrary")) {
+    cityLibrary = JSON.parse(localStorage.getItem("cityLibrary"));
+    for (var i = 0; i < cityLibrary.length; i++) {
+        var cityListEntry = $("<button>").text(cityLibrary[i]);
+        cityListEntry.addClass("list-group-item list-group-item-action bg-dark city-button");
+        $("#city-list").append(cityListEntry)
+
+        $(cityListEntry).attr(
+            "style",
+            "color:white"
+        );
+    }
+    $("#city-list").click(function (event) {
+        event.preventDefault();
+        ajaxWeather(event.target.textContent);
+        $("#current-weather").show();
+        $("#forecast-weather").show();
+     })
+}
+
 $("#search-button").click(function (event) {
     event.preventDefault();
-    
+
     $("#current-weather").show();
     $("#forecast-weather").show();
 
-    
-    var cityInput = $("#city-input").val();
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=0e6c3174a1688eb274ee1dfce2109fc8&units=metric";
-    var queryURL2 = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityInput + "&appid=0e6c3174a1688eb274ee1dfce2109fc8&units=metric"
+
+    var city = $("#city-input").val();
+
+
+
+
+    ajaxWeather(city);
+    if (!cityLibrary.includes(city)) {
+        cityLibrary.push(city.toLowerCase());
+        localStorage.setItem("cityLibrary", JSON.stringify(cityLibrary));
+        var cityListEntry = $("<button>").text(city);
+        cityListEntry.addClass("list-group-item list-group-item-action bg-dark city-button ");
+        $("#city-list").append(cityListEntry)
+        $(cityListEntry).attr(
+            "style",
+            "color:white"
+        );
+    }
+
+
+})
+
+function ajaxWeather(city) {
+    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=0e6c3174a1688eb274ee1dfce2109fc8&units=metric";
+
     var latitude;
     var longitude;
     $.ajax({
@@ -46,9 +90,7 @@ $("#search-button").click(function (event) {
 
         var nameCity = $("<h3>").text(response.name);
         $("#searched-city").prepend(nameCity);
-        var cityListEntry = $("<button>").text(response.name);
-        cityListEntry.addClass("list-group-item list-group-item-action city-button");
-        $("#city-list").append(cityListEntry)
+
 
 
 
@@ -60,25 +102,25 @@ $("#search-button").click(function (event) {
         $("#current-temp").text("Temperature: " + response.main.temp + " °C");
         $("#current-humidity").text("Humidity: " + response.main.humidity + "%");
         $("#current-wind").text("Wind Speed: " + response.wind.speed + " Km/h");
-        
+
 
         latitude = response.coord.lat;
         longitude = response.coord.lon;
 
-        var queryURL3 =
+        var queryURL2 =
             "https://api.openweathermap.org/data/2.5/uvi/forecast?&units=imperial&appid=0e6c3174a1688eb274ee1dfce2109fc8&q=" +
             "&lat=" +
             latitude +
             "&lon=" +
             longitude;
         $.ajax({
-            url: queryURL3,
+            url: queryURL2,
             method: "GET"
 
         }).then(function (uvIndex) {
-            console.log(uvIndex);
+
             var uvIndexDisplay = $("<p>");
-            
+
 
             $("#current-uv").text("UV Index: ");
             $("#current-uv").append(uvIndexDisplay.text(uvIndex[0].value));
@@ -86,74 +128,67 @@ $("#search-button").click(function (event) {
                 "style",
                 "color:orange",
             );
-            console.log(uvIndex[0].value);
+
+            var queryURL3 = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=0e6c3174a1688eb274ee1dfce2109fc8&units=metric"
 
             $.ajax({
-                url: queryURL2,
+                url: queryURL3,
                 method: "GET"
                 // Store all of the retrieved data inside of an object called "forecast"
             }).then(function (forecast) {
-                console.log(queryURL2);
+
 
                 console.log(forecast)
                 var forecastIndex = 0
 
-                for (var i = 0; i < forecast.list.length; i++) {
+                for (var i = 0; i < forecast.list.length; i += 8) {
                     var forecastDate = $("<h5>");
 
-                    forecastIndex++
 
+                    forecastIndex++
+                    var arrayindex = i
                     console.log("#forecast-date" + forecastIndex);
 
                     $("#forecast-date" + forecastIndex).empty();
                     $("#forecast-date" + forecastIndex).append(
-                        forecastDate.text(localTime.add(1, "days").format("M/D/YYYY"))
+                        forecastDate.text(localTime.add(1, "days").format("M/D/YY"))
                     );
+
                     var forecastIcon = $("<img>");
                     forecastIcon.attr(
                         "src",
                         "https://openweathermap.org/img/w/" +
-                        forecast.list[i].weather[0].icon +
+                        forecast.list[arrayindex].weather[0].icon +
                         ".png"
                     );
 
                     $("#forecast-icon" + forecastIndex).empty();
                     $("#forecast-icon" + forecastIndex).append(forecastIcon);
 
-                    console.log(forecast.list[i].weather[0].icon);
+
 
                     $("#forecast-temp" + forecastIndex).text(
-                        "Temp: " + forecast.list[i].main.temp + " °C"
+                        "Temp: " + forecast.list[arrayindex].main.temp + " °C"
                     );
                     $("#forecast-humidity" + forecastIndex).text(
-                        "Humidity " + forecast.list[i].main.humidity + "%"
+                        "Humidity " + forecast.list[arrayindex].main.humidity + "%"
                     );
-
+                    console.log(arrayindex)
                     $(".forecast").attr(
                         "style",
                         "color:white"
                     );
 
-                    
+
                 }
-                // document.on("click", ".city-button", function(event) {
-                    
-                //     var cityInput = $(".city-button").val()
-                // alert("cara de ")
-                
-                    
-                //   })
-            
+        
+
             });
-           
+
         });
-      
+
 
     });
 
-   
 
-
-
-
-})
+}
