@@ -17,7 +17,7 @@ When the Users access to the site he will be presented with a form asking in wic
 After clicking the serach button the site will present to the user the current wheather.
 Also the App will show the forecast for the next 5 days.
 
-![ScreenShoot](.\assets\screenshot.png "Title")
+![ScreenShot](https://user-images.githubusercontent.com/65316520/89455257-03c70c80-d730-11ea-8feb-242e9dbc0eeb.png))
  
 # Autor
 
