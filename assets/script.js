@@ -17,13 +17,14 @@
 //   we append our diferents days to cards;
 //we store the users input to our local storage
 
-
+// Var city library will hold our information in the local storage
 var cityLibrary = []
 $("#current-weather").hide()
 $("#forecast-weather").hide()
-
+//Retrieve the information that is store in the local Storage
 if (localStorage.getItem("cityLibrary")) {
     cityLibrary = JSON.parse(localStorage.getItem("cityLibrary"));
+//    Run loop creating a button for each city that the user input.
     for (var i = 0; i < cityLibrary.length; i++) {
         var cityListEntry = $("<button>").text(cityLibrary[i]);
         cityListEntry.addClass("list-group-item list-group-item-action bg-dark city-button");
@@ -36,29 +37,29 @@ if (localStorage.getItem("cityLibrary")) {
     }
     $("#city-list").click(function (event) {
         event.preventDefault();
+
         ajaxWeather(event.target.textContent);
-        $("#current-weather").show();
+         $("#current-weather").show();
         $("#forecast-weather").show();
+       
      })
 }
 
+//Call the functions inside the search-button
 $("#search-button").click(function (event) {
     event.preventDefault();
 
     $("#current-weather").show();
     $("#forecast-weather").show();
 
-
     var city = $("#city-input").val();
 
-
-
-
     ajaxWeather(city);
-    if (!cityLibrary.includes(city)) {
+
+    if (!cityLibrary.includes(city.toLowerCase())) {
         cityLibrary.push(city.toLowerCase());
         localStorage.setItem("cityLibrary", JSON.stringify(cityLibrary));
-        var cityListEntry = $("<button>").text(city);
+        var cityListEntry = $("<button>").text(city.toLowerCase());
         cityListEntry.addClass("list-group-item list-group-item-action bg-dark city-button ");
         $("#city-list").append(cityListEntry)
         $(cityListEntry).attr(
@@ -66,10 +67,8 @@ $("#search-button").click(function (event) {
             "color:white"
         );
     }
-
-
 })
-
+//Retive the information as need it from the openWheather API, and we append it to the current weather card.
 function ajaxWeather(city) {
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=0e6c3174a1688eb274ee1dfce2109fc8&units=metric";
 
@@ -79,20 +78,17 @@ function ajaxWeather(city) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-
+       
         var localTime = moment();
-
+       
         var displayLocalT = $("<h3>");
         $("#searched-city").empty();
         $("#searched-city").append(
             displayLocalT.text("(" + localTime.format("M/D/YYYY") + ")")
         );
-
+        
         var nameCity = $("<h3>").text(response.name);
         $("#searched-city").prepend(nameCity);
-
-
-
 
         var weatherIcon = $("<img>");
         weatherIcon.attr("src", "https://openweathermap.org/img/w/" + response.weather[0].icon + ".png");
@@ -102,7 +98,6 @@ function ajaxWeather(city) {
         $("#current-temp").text("Temperature: " + response.main.temp + " °C");
         $("#current-humidity").text("Humidity: " + response.main.humidity + "%");
         $("#current-wind").text("Wind Speed: " + response.wind.speed + " Km/h");
-
 
         latitude = response.coord.lat;
         longitude = response.coord.lon;
@@ -178,17 +173,8 @@ function ajaxWeather(city) {
                         "style",
                         "color:white"
                     );
-
-
-                }
-        
-
+                }        
             });
-
         });
-
-
     });
-
-
 }

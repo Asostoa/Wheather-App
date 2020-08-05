@@ -1,4 +1,4 @@
-/* We style the body,apply background pic and his atributes and we apply our fonts */
+/* style the body,apply background pic and his atributes and apply our fonts */
 body{
     font-family: 'Monda', sans-serif;
     background-image: url(https://images.unsplash.com/photo-1567367975896-5a54e8542ddb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80);
@@ -18,7 +18,7 @@ body{
     font-size: 30px;
     text-align: center;
 }
-
+/* MAkes all the city of the list capitalize */
 .city-button{
     text-transform: capitalize;
 }
