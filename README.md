@@ -19,7 +19,7 @@ Also the App will show the forecast for the next 5 days.
 
 
 ![ScreenShot](https://user-images.githubusercontent.com/65316520/89455257-03c70c80-d730-11ea-8feb-242e9dbc0eeb.png))
->>>>>>> cf374abfb13ad4e30141cbd8af93f5de85f9e3c0
+
  
 # Autor
 
